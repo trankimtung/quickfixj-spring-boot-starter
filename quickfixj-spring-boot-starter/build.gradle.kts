@@ -87,8 +87,8 @@ publishing {
             val snapshotsRepoUrl = uri(property("snapshotsRepoUrl") as String)
             url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
             credentials {
-                username = findProperty("sonatypeUsername") as String
-                password = findProperty("sonatypePassword") as String
+                username = findProperty("sonatypeUsername") as? String
+                password = findProperty("sonatypePassword") as? String
             }
         }
     }
