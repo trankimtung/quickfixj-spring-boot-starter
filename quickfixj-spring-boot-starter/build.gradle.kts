@@ -10,13 +10,12 @@ group = property("masterGroup") as String
 version = property("masterVersion") as String
 
 dependencies {
-    implementation(kotlin("stdlib"))
-    implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.quickfixj:quickfixj-core:${property("quickfixjVersion")}")
-    implementation("org.quickfixj:quickfixj-messages-all:${property("quickfixjVersion")}")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    api("org.springframework.boot:spring-boot-starter")
+    api("org.quickfixj:quickfixj-core:${property("quickfixjVersion")}")
+    api("org.quickfixj:quickfixj-messages-all:${property("quickfixjVersion")}")
+    kapt("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("junit:junit:${property("junitVersion")}")
     testImplementation(kotlin("test-junit5"))
