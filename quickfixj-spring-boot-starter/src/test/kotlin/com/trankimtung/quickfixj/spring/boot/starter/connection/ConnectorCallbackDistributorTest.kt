@@ -9,14 +9,14 @@ import kotlin.test.assertEquals
 internal class ConnectorCallbackDistributorTest {
 
     @Test
-    fun returnNoopConnectorCallbackByDefault() {
+    fun `Returns NOOP connector callback by default`() {
         val distributor = ConnectorCallbackDistributor(emptyList())
         val sessionID = SessionID("FIX4.4", "EXEC", "BANZAI")
         assertEquals(NoopConnectorCallback::class, distributor.getCallBack(sessionID)::class)
     }
 
     @Test
-    fun returnConnectorCallbackBySessionID() {
+    fun `Returns connector callback by session ID`() {
         val sessionID = SessionID("FIX4.4", "EXEC", "BANZAI")
         val callbacks = listOf(
             Mockito.spy(ConnectorCallback::class.java).apply {
@@ -38,4 +38,32 @@ internal class ConnectorCallbackDistributorTest {
         assertEquals(sessionID, distributor.getCallBack(sessionID).getSessionId())
     }
 
+    @Test
+    fun `Calls correct callbacks on events`() {
+        val sessionID = SessionID("FIX4.4:EXEC->BANZAI")
+        val callback = Mockito.mock(ConnectorCallback::class.java)
+        BDDMockito.willReturn(sessionID).given(callback).getSessionId()
+        BDDMockito.willReturn(true).given(callback).supportsSessionId(sessionID)
+        val distributor = ConnectorCallbackDistributor(listOf(callback))
+
+        with(distributor) {
+            onCreate(sessionID)
+            onLogon(sessionID)
+            onLogout(sessionID)
+            toAdmin(null, sessionID)
+            fromAdmin(null, sessionID)
+            toApp(null, sessionID)
+            fromApp(null, sessionID)
+        }
+
+        with(Mockito.verify(callback)) {
+            onCreate(sessionID)
+            onLogon(sessionID)
+            onLogout(sessionID)
+            toAdmin(null, sessionID)
+            fromAdmin(null, sessionID)
+            toApp(null, sessionID)
+            fromApp(null, sessionID)
+        }
+    }
 }

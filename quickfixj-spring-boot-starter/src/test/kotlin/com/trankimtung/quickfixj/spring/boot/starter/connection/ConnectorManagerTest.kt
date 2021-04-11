@@ -13,7 +13,7 @@ import kotlin.test.assertTrue
 internal class ConnectorManagerTest {
 
     @Test
-    fun startAndStop() {
+    fun `Starts and stops without callback`() {
         val connector = Mockito.mock(Connector::class.java)
         val connectorManager = ConnectorManager(connector)
 
@@ -31,7 +31,7 @@ internal class ConnectorManagerTest {
     }
 
     @Test
-    fun startAndStopWithForceDisconnect() {
+    fun `Starts and stops with force connect on`() {
         val connector = Mockito.mock(Connector::class.java)
         val connectorManager = ConnectorManager(connector = connector, forceDisconnect = true)
 
@@ -49,7 +49,7 @@ internal class ConnectorManagerTest {
     }
 
     @Test
-    fun startAndStopWithCallback() {
+    fun `Starts and stops with callback`() {
         val connector = Mockito.mock(Connector::class.java)
         val connectorManager = ConnectorManager(connector)
         val callback = Mockito.mock(Runnable::class.java)
@@ -69,7 +69,7 @@ internal class ConnectorManagerTest {
     }
 
     @Test
-    fun throwSessionSettingsException() {
+    fun `Throws SessionSettingsException when connection settings is invalid`() {
         val connector = Mockito.mock(Connector::class.java)
         BDDMockito.willThrow(ConfigError::class.java).given(connector).start()
         val connectorManager = ConnectorManager(connector)
