@@ -2,3 +2,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.trankimtung.quickfixj.spring.boot.starter.autoconfigure.server.QuickFixJServerAutoConfiguration,\
   com.trankimtung.quickfixj.spring.boot.starter.autoconfigure.client.QuickFixJClientAutoConfiguration
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+  com.trankimtung.quickfixj.spring.boot.starter.QuickFixJAutoConfigureFailureAnalyzer
